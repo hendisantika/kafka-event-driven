@@ -1,8 +1,11 @@
 package id.my.hendisantika.orderservice.service;
 
+import id.my.hendisantika.orderservice.entity.PurchaseOrder;
 import id.my.hendisantika.orderservice.repository.PurchaseOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,4 +21,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PurchaseOrderService {
     private final PurchaseOrderRepository purchaseOrderRepository;
+
+    public List<PurchaseOrder> getPurchaseOrders() {
+        return this.purchaseOrderRepository.findAll();
+    }
 }
