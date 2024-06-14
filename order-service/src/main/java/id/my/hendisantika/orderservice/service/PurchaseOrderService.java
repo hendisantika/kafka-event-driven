@@ -25,4 +25,8 @@ public class PurchaseOrderService {
     public List<PurchaseOrder> getPurchaseOrders() {
         return this.purchaseOrderRepository.findAll();
     }
+
+    public void createPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrderRepository.save(purchaseOrder);
+    }
 }
