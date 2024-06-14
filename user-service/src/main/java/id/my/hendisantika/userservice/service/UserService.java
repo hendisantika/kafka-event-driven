@@ -1,5 +1,7 @@
 package id.my.hendisantika.userservice.service;
 
+import id.my.hendisantika.userservice.dto.UserDto;
+import id.my.hendisantika.userservice.entity.User;
 import id.my.hendisantika.userservice.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,4 +23,12 @@ public class UserService {
     private final UsersRepository usersRepository;
 
     private final KafkaTemplate<Long, String> kafkaTemplate;
+
+    public Long createUser(UserDto userDto) {
+        User user = new User();
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setEmail(userDto.getEmail());
+        return this.usersRepository.save(user).getId();
+    }
 }
