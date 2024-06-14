@@ -1,8 +1,10 @@
 package id.my.hendisantika.orderservice.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id.my.hendisantika.orderservice.entity.User;
 import id.my.hendisantika.orderservice.repository.PurchaseOrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,4 +23,14 @@ public class UserServiceEventHandler {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final PurchaseOrderRepository purchaseOrderRepository;
+
+    @KafkaListener(topics = "user-service-event")
+    public void consume(String userStr) {
+        try {
+            User user = OBJECT_MAPPER.readValue(userStr, User.class);
+            this.updateUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
