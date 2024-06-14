@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:16-alpine3.20
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=productDB
+      - POSTGRES_USER=yuji
+      - POSTGRES_PASSWORD=yuji
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=yuji@yopmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - 80:80
+  mongo:
+    image: mongo:6.0.16-rc0-jammy
+    ports:
+      - 27017:27017
