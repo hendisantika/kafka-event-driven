@@ -2,6 +2,11 @@ package id.my.hendisantika.userservice.controller;
 
 import id.my.hendisantika.userservice.dto.UserDto;
 import id.my.hendisantika.userservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,16 +28,51 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user-service")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Tag(name = "User", description = "User API with documentation annotations")
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping("/create")
+    @Operation(
+            summary = "Create New User",
+            description = "Create New User .",
+            tags = {"User"})
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    description = "Success",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            Long.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Internal error", responseCode = "500"
+                    , content = @Content)
+    }
+    )
     public Long createUser(@RequestBody UserDto userDto) {
         return this.userService.createUser(userDto);
     }
 
     @PutMapping("/update")
+    @Operation(
+            summary = "Update User",
+            description = "Update User .",
+            tags = {"User"})
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    description = "Success",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            Long.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Internal error", responseCode = "500"
+                    , content = @Content)
+    }
+    )
     public void updateUser(@RequestBody UserDto userDto) {
         this.userService.updateUser(userDto);
     }
