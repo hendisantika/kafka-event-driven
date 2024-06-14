@@ -1,0 +1,16 @@
+spring:
+  application.name: user-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/productDB
+    username: yuji
+    password: yuji
+  kafka:
+    bootstrap-servers:
+      - localhost:9091
+      - localhost:9092
+      - localhost:9093
+    template:
+      default-topic: user-service-event
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
