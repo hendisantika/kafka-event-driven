@@ -1,5 +1,6 @@
 package id.my.hendisantika.userservice.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import id.my.hendisantika.userservice.dto.UserDto;
 import id.my.hendisantika.userservice.entity.User;
 import id.my.hendisantika.userservice.repository.UsersRepository;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private final UsersRepository usersRepository;
 
     private final KafkaTemplate<Long, String> kafkaTemplate;
@@ -42,5 +45,14 @@ public class UserService {
                     user.setEmail(userDto.getEmail());
                     this.raiseEvent(userDto);
                 });
+    }
+
+    private void raiseEvent(UserDto dto) {
+        try {
+            String value = OBJECT_MAPPER.writeValueAsString(dto);
+            this.kafkaTemplate.sendDefault(dto.getId(), value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
