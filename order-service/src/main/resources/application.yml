@@ -17,3 +17,16 @@ spring:
       auto-offset-reset: earliest
       key-serializer: org.apache.kafka.common.serialization.LongDeserializer
       value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+
+springdoc:
+  version: 1.0.0
+  swagger-ui:
+    path: /swagger-ui
+  api-docs:
+    path: /v3/api-doc
+
+#logging:
+#  level:
+#    root: DEBUG
+application-description: '@project.description@'
+application-version: '@project.version@'
