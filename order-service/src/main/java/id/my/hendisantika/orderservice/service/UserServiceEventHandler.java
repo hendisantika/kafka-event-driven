@@ -1,11 +1,15 @@
 package id.my.hendisantika.orderservice.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id.my.hendisantika.orderservice.entity.PurchaseOrder;
 import id.my.hendisantika.orderservice.entity.User;
 import id.my.hendisantika.orderservice.repository.PurchaseOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,5 +36,12 @@ public class UserServiceEventHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Transactional
+    public void updateUser(User user) {
+        List<PurchaseOrder> userOrders = this.purchaseOrderRepository.findByUserId(user.getId());
+        userOrders.forEach(p -> p.setUser(user));
+        this.purchaseOrderRepository.saveAll(userOrders);
     }
 }
