@@ -1,10 +1,14 @@
 package id.my.hendisantika.orderservice.controller;
 
+import id.my.hendisantika.orderservice.entity.PurchaseOrder;
 import id.my.hendisantika.orderservice.service.PurchaseOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,4 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final PurchaseOrderService purchaseOrderService;
+
+    @GetMapping("/all")
+    public List<PurchaseOrder> getAllOrders() {
+        return this.purchaseOrderService.getPurchaseOrders();
+    }
 }
