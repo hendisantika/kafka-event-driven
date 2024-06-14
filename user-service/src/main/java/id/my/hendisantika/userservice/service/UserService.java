@@ -6,6 +6,7 @@ import id.my.hendisantika.userservice.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,5 +31,16 @@ public class UserService {
         user.setLastname(userDto.getLastname());
         user.setEmail(userDto.getEmail());
         return this.usersRepository.save(user).getId();
+    }
+
+    @Transactional
+    public void updateUser(UserDto userDto) {
+        this.usersRepository.findById(userDto.getId())
+                .ifPresent(user -> {
+                    user.setFirstname(userDto.getFirstname());
+                    user.setLastname(userDto.getLastname());
+                    user.setEmail(userDto.getEmail());
+                    this.raiseEvent(userDto);
+                });
     }
 }
