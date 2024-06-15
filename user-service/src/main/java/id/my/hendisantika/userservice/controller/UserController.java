@@ -1,6 +1,7 @@
 package id.my.hendisantika.userservice.controller;
 
 import id.my.hendisantika.userservice.dto.UserDto;
+import id.my.hendisantika.userservice.entity.User;
 import id.my.hendisantika.userservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,11 +10,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -53,6 +57,28 @@ public class UserController {
     )
     public Long createUser(@RequestBody UserDto userDto) {
         return this.userService.createUser(userDto);
+    }
+
+    @GetMapping("/all")
+    @Operation(
+            summary = "Get All Users",
+            description = "Get All Users.",
+            tags = {"User"})
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    description = "Success",
+                    responseCode = "200",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation =
+                            Long.class))
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Not found", responseCode = "404",
+                    content = @Content),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(description = "Internal error", responseCode = "500"
+                    , content = @Content)
+    }
+    )
+    public List<User> listUsers() {
+        return this.userService.listUsers();
     }
 
     @PutMapping("/update")

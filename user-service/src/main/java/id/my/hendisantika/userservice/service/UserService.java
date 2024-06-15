@@ -9,6 +9,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : kafka-event-driven
@@ -27,6 +29,10 @@ public class UserService {
     private final UsersRepository usersRepository;
 
     private final KafkaTemplate<Long, String> kafkaTemplate;
+
+    public List<User> listUsers() {
+        return usersRepository.findAll();
+    }
 
     public Long createUser(UserDto userDto) {
         User user = new User();
