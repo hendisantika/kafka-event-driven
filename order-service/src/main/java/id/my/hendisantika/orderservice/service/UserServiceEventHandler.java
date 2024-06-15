@@ -5,6 +5,7 @@ import id.my.hendisantika.orderservice.entity.PurchaseOrder;
 import id.my.hendisantika.orderservice.entity.User;
 import id.my.hendisantika.orderservice.repository.PurchaseOrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.List;
  * Time: 06:47
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceEventHandler {
@@ -33,6 +35,7 @@ public class UserServiceEventHandler {
         try {
             User user = OBJECT_MAPPER.readValue(userStr, User.class);
             this.updateUser(user);
+            log.info("Consume User data from Kafka {}", userStr);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import id.my.hendisantika.userservice.dto.UserDto;
 import id.my.hendisantika.userservice.entity.User;
 import id.my.hendisantika.userservice.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.List;
  * Time: 06:25
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -57,6 +59,7 @@ public class UserService {
         try {
             String value = OBJECT_MAPPER.writeValueAsString(dto);
             this.kafkaTemplate.sendDefault(dto.getId(), value);
+            log.info("User data send to Kafka {}", value);
         } catch (Exception e) {
             e.printStackTrace();
         }
