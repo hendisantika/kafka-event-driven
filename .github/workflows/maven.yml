@@ -22,7 +22,9 @@ concurrency:
 jobs:
   build:
     name: Build ${{ matrix.service }}
-    runs-on: ubuntu-latest
+    # Pinned to ubuntu-24.04: ubuntu-latest moved to Ubuntu 26 (Linux kernel >= 6.19), on which
+    # MongoDB 8.x refuses to start (https://jira.mongodb.org/browse/SERVER-121912).
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
 
     strategy:
@@ -59,7 +61,7 @@ jobs:
     name: Submit dependency graph ${{ matrix.service }}
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
 
