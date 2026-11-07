@@ -19,7 +19,7 @@ class OrderServiceApplicationTests {
 
 	@Container
 	@ServiceConnection
-	static KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("apache/kafka-native:4.1.1"));
+	static KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("apache/kafka:4.1.1"));
 
 	@Test
 	void contextLoads() {
